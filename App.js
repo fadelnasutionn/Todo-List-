@@ -1,18 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Task from './components/Task';
+import Msg from './components/Msg';
 
 export default function App() {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
+  const [msg, setMsg] = useState();
 
   const handleAddTask = () => {
-    if(task == null){
+    if(task === null){
       alert('Please write a task!');
       return;
     } else {
       Keyboard.dismiss();
+      setMsg('');
       setTaskItems([...taskItems, task])
       setTask(null);
     }
@@ -28,7 +31,7 @@ export default function App() {
           onPress: () => {
             let itemsCopy = [...taskItems];
             itemsCopy.splice(index, 1);
-            setTaskItems(itemsCopy);  
+            setTaskItems(itemsCopy);
           }
         },
         {
@@ -37,6 +40,15 @@ export default function App() {
       ]
     );
   };
+
+  useEffect(() => {
+      if(taskItems.length === 0){
+        let message = "You don't have any task!";
+        setMsg(message);
+      }
+    },
+  )
+
 
   // const completeTask = (index) => {
   //   let itemsCopy = [...taskItems];
@@ -53,7 +65,6 @@ export default function App() {
 
         <View style={styles.items}>
           {/* Task Items */}
-          <Text>You don't have a task!</Text>
           {
            taskItems.map((item, index) => {
              return (
@@ -63,6 +74,7 @@ export default function App() {
              )              
            }) 
           }
+          <Msg text={msg} />
         </View>
 
       </View>
