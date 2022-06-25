@@ -110,5 +110,9 @@ const styles = StyleSheet.create({
     borderColor: '#C0C0C0',
     borderWidth: 1,
   },
-  addText: {},
+  addText: {
+    color: '#C0C0C0',
+    fontSize: 25,
+    fontWeight: '300',
+  },
 });
