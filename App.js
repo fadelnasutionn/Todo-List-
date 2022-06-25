@@ -15,7 +15,6 @@ export default function App() {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task])
       setTask(null);
-      console.log(taskItems);
     }
   }
 
