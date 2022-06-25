@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Task from './components/Task';
 
 export default function App() {
@@ -18,33 +18,51 @@ export default function App() {
     }
   }
 
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
-  }
+  const showConfirmDialog = (index) => {
+    return Alert.alert(
+      "",
+      "Are you completed this task?",
+      [
+        {
+          text: "Yes",
+          onPress: (index) => {
+            let itemsCopy = [...taskItems];
+            itemsCopy.splice(index, 1);
+            setTaskItems(itemsCopy);
+          }
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
+
+  // const completeTask = (index) => {
+  //   let itemsCopy = [...taskItems];
+  //   itemsCopy.splice(index, 1);
+  //   setTaskItems(itemsCopy);
+  // }
 
   return (
     <View style={styles.container}>
       
-      {/* Today's tasks */}
+      {/* My tasks */}
       <View style={styles.tasksWarpper}>
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
+        <Text style={styles.sectionTitle}>My tasks</Text>
 
         <View style={styles.items}>
-          {/* The task will added */}
+          {/* Task Items */}
+          <Text>You don't have a task!</Text>
           {
            taskItems.map((item, index) => {
              return (
-              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <TouchableOpacity key={index} onPress={() => showConfirmDialog(index)}>
                 <Task text={item} />
               </TouchableOpacity>
              )              
            }) 
           }
-          {/* <Task text={'Task 1'} />
-          <Task text={'Task 2'} />
-          <Task text={'Task 3'} /> */}
         </View>
 
       </View>
@@ -55,8 +73,10 @@ export default function App() {
         behavior={Platform.OS === "Android" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
         >
+          {/* Task Textfield */}
           <TextInput style={styles.input} placeholder={"Write a task"} value={task} onChangeText={text => setTask(text)} />
           
+          {/* Add Button */}
           <TouchableOpacity onPress={() => handleAddTask()}>
             <View style={styles.addWrapper}>
               <Text style={styles.addText}>+</Text>
