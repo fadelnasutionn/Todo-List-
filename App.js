@@ -25,10 +25,10 @@ export default function App() {
       [
         {
           text: "Yes",
-          onPress: (index) => {
+          onPress: () => {
             let itemsCopy = [...taskItems];
             itemsCopy.splice(index, 1);
-            setTaskItems(itemsCopy);
+            setTaskItems(itemsCopy);  
           }
         },
         {
