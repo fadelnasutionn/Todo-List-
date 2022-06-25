@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Task from './components/Task';
 import Msg from './components/Msg';
 
@@ -14,7 +14,7 @@ export default function App() {
       alert('Please write a task!');
       return;
     } else {
-      Keyboard.dismiss();
+      // Keyboard.dismiss();
       setMsg('');
       setTaskItems([...taskItems, task])
       setTask(null);
@@ -63,20 +63,22 @@ export default function App() {
       <View style={styles.tasksWarpper}>
         <Text style={styles.sectionTitle}>My tasks</Text>
 
-        <View style={styles.items}>
-          {/* Task Items */}
-          {
-           taskItems.map((item, index) => {
-             return (
-              <TouchableOpacity key={index} onPress={() => showConfirmDialog(index)}>
-                <Task text={item} />
-              </TouchableOpacity>
-             )              
-           }) 
-          }
-          <Msg text={msg} />
-        </View>
-
+        <ScrollView style={styles.ScrollView}>
+          <View style={styles.items}>
+            {/* Task Items */}
+            {
+            taskItems.map((item, index) => {
+              return (
+                <TouchableOpacity key={index} onPress={() => showConfirmDialog(index)}>
+                  <Task text={item} />
+                </TouchableOpacity>
+              )              
+            }) 
+            }
+            <Msg text={msg} />
+          </View>
+        </ScrollView>
+        
       </View>
 
 
@@ -111,9 +113,10 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 20,
   },
   items: {
-    marginTop: 30,
+    marginTop: 10,
   },
   writeTaskWrapper: {
     position: 'absolute',
@@ -146,5 +149,8 @@ const styles = StyleSheet.create({
     color: '#C0C0C0',
     fontSize: 25,
     fontWeight: '300',
+  },
+  ScrollView: {
+    height: '80%',
   },
 });
