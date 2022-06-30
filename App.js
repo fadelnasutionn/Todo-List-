@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { Alert,
+        Keyboard,
+        KeyboardAvoidingView,
+        Platform,
+        ScrollView,
+        StyleSheet,
+        Text,
+        TextInput,
+        TouchableOpacity,
+        View } from 'react-native';
 import Task from './components/Task';
 import Msg from './components/Msg';
 
@@ -60,7 +69,7 @@ export default function App() {
     <View style={styles.container}>
       
       {/* My tasks */}
-      <View style={styles.tasksWarpper}>
+      <View style={styles.tasksWrapper}>
         <Text style={styles.sectionTitle}>My tasks</Text>
 
         <ScrollView style={styles.ScrollView}>
@@ -84,10 +93,10 @@ export default function App() {
 
       {/* Create task section */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === "Android" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
         >
-          {/* Task Textfield */}
+          {/* Task Text Field */}
           <TextInput style={styles.input} placeholder={"Write a task"} value={task} onChangeText={text => setTask(text)} />
           
           {/* Add Button */}
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8EAED',  
   },
-  tasksWarpper: {
+  tasksWrapper: {
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -136,8 +145,8 @@ const styles = StyleSheet.create({
     width: 300,
   },
   addWrapper: {
-    width: 60,
-    height: 60,
+    width: 44,
+    height: 44,
     backgroundColor: '#fff',
     borderRadius: 60,
     justifyContent: 'center',
