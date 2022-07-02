@@ -1,32 +1,54 @@
-import React, {useEffect, useState} from 'react';
-// import { StatusBar } from 'expo-status-bar';
-import { Alert,
-        Keyboard,
-        KeyboardAvoidingView,
-        Platform,
-        ScrollView,
-        StyleSheet,
-        Text,
-        TextInput,
-        TouchableOpacity,
-        View } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Task from './components/Task';
 import Msg from './components/Msg';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+
+//
 export default function App() {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
   const [msg, setMsg] = useState();
 
   const handleAddTask = () => {
-    if(task === null){
-      alert('Please write a task!');
-      return;
+    if(task === null || task === undefined){
+      return Alert.alert(
+          "",
+          'Please write a task!',
+          [
+            {
+              text: "Ok",
+              onPress: () => {
+                setTask('');
+                return;
+              }
+            },
+          ]
+      )
     } else {
-      // Keyboard.dismiss();
-      setMsg('');
-      setTaskItems([...taskItems, task])
-      setTask(null);
+      let a = task.replace(/\s/g, '')
+      if(a === ''){
+        Keyboard.dismiss();
+        return Alert.alert(
+            "",
+            "Can't empty!",
+            [
+              {
+                text: "Ok",
+                onPress: () => {
+                  setTask('');
+                }
+              },
+            ]
+        )
+      }else {
+        Keyboard.dismiss();
+        setMsg('');
+        setTaskItems([...taskItems, task])
+        setTask(null)
+      }
     }
   }
 
@@ -67,7 +89,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      
+
       {/* My tasks */}
       <View style={styles.tasksWrapper}>
         <Text style={styles.sectionTitle}>My tasks</Text>
@@ -81,28 +103,30 @@ export default function App() {
                 <TouchableOpacity key={index} onPress={() => showConfirmDialog(index)}>
                   <Task text={item} />
                 </TouchableOpacity>
-              )              
-            }) 
+              )
+            })
             }
             <Msg text={msg} />
           </View>
         </ScrollView>
-        
+
       </View>
 
 
       {/* Create task section */}
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "Android" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
         >
           {/* Task Text Field */}
           <TextInput style={styles.input} placeholder={"Write a task"} value={task} onChangeText={text => setTask(text)} />
-          
+
           {/* Add Button */}
           <TouchableOpacity onPress={() => handleAddTask()}>
             <View style={styles.addWrapper}>
-              <Text style={styles.addText}>+</Text>
+              <Text style={styles.addText}>
+                <Icon name="plus" size={21} />
+              </Text>
             </View>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -145,8 +169,8 @@ const styles = StyleSheet.create({
     width: 300,
   },
   addWrapper: {
-    width: 44,
-    height: 44,
+    width: 60,
+    height: 60,
     backgroundColor: '#fff',
     borderRadius: 60,
     justifyContent: 'center',
@@ -155,7 +179,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addText: {
-    color: '#C0C0C0',
+    color: '#b3b3b3',
     fontSize: 25,
     fontWeight: '300',
   },
