@@ -6,7 +6,7 @@ import Msg from './components/Msg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-
+//
 export default function App() {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
